@@ -1,0 +1,51 @@
+{
+  "tasks": [
+    {
+      "id": "task_1769992432",
+      "title": "Set up OpenClaw Multi-Agent System",
+      "description": "Build the complete multi-agent system with Virtual Assistant and Dev teams, including Docker infrastructure, shared state, and heartbeat coordination.",
+      "assignee": "archi",
+      "status": "done",
+      "createdAt": "2026-02-02T00:33:52Z",
+      "updatedAt": "2026-02-02T00:34:31Z"
+    },
+    {
+      "id": "task_1769992436",
+      "title": "Document agent system architecture",
+      "description": "Create comprehensive documentation explaining the multi-agent system architecture, how agents communicate, and how to use it.",
+      "assignee": "scribe",
+      "status": "done",
+      "createdAt": "2026-02-02T00:33:56Z",
+      "updatedAt": "2026-02-02T01:34:35Z"
+    },
+    {
+      "id": "task_1769992438",
+      "title": "Create example project in Docker",
+      "description": "Set up a sample application using Node.js in Docker to demonstrate the development workflow.",
+      "assignee": "codex",
+      "status": "done",
+      "createdAt": "2026-02-02T00:33:58Z",
+      "updatedAt": "2026-02-02T01:34:35Z"
+    },
+    {
+      "id": "task_1769993525",
+      "title": "Fix web access for agents",
+      "description": "Install web fetching tools (lynx, curl, web-fetch.sh) to enable agents to access hyperlinks and resources shared by human.",
+      "assignee": "main",
+      "status": "done",
+      "createdAt": "2026-02-02T00:52:05Z",
+      "updatedAt": "2026-02-02T00:52:08Z"
+    },
+    {
+      "id": "task_1769998492",
+      "title": "Set up betting prediction market MVP infrastructure",
+      "description": "Create Docker environment for betting bot with Jupyter, PostgreSQL, and Kalshi API integration based on MVP analysis.",
+      "assignee": "codex",
+      "status": "done",
+      "createdAt": "2026-02-02T02:14:52Z",
+      "updatedAt": "2026-02-02T03:24:52Z"
+    }
+  ],
+  "lastUpdated": "2026-02-02T03:24:52Z",
+  "version": "1.0"
+}

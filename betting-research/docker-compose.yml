@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # PostgreSQL database for market data
+  postgres:
+    image: postgres:16-alpine
+    container_name: betting-db
+    environment:
+      POSTGRES_USER: betting_user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-betting_password}
+      POSTGRES_DB: betting_markets
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U betting_user -d betting_markets"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - betting-network
+
+  # Jupyter notebook for research
+  jupyter:
+    image: jupyter/scipy-notebook:latest
+    container_name: betting-jupyter
+    environment:
+      JUPYTER_ENABLE_LAB: "yes"
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/home/jovyan/work
+      - ./data:/home/jovyan/data
+      - ./models:/home/jovyan/models
+    command: start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - betting-network
+
+  # Python service for Kalshi API integration
+  kalshi-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: betting-kalshi-bot
+    environment:
+      DATABASE_URL: postgresql://betting_user:${POSTGRES_PASSWORD:-betting_password}@postgres:5432/betting_markets
+      KALSHI_API_KEY: ${KALSHI_API_KEY}
+      KALSHI_API_SECRET: ${KALSHI_API_SECRET}
+      KALSHI_ENVIRONMENT: ${KALSHI_ENVIRONMENT:-demo}
+    volumes:
+      - ./src:/app/src
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./tests:/app/tests
+    depends_on:
+      postgres:
+        condition: service_healthy
+    # Keep container running for on-demand commands
+    command: tail -f /dev/null
+    restart: unless-stopped
+    networks:
+      - betting-network
+
+volumes:
+  postgres_data:
+
+networks:
+  betting-network:
+    driver: bridge
