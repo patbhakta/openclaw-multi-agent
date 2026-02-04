@@ -7,7 +7,9 @@ services:
       POSTGRES_USER: betting_user
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-betting_password}
       POSTGRES_DB: betting_markets
-    # REMOVED EXPOSED PORT - internal network only
+    # BIND TO LOCALHOST ONLY - NO PUBLIC EXPOSURE
+    ports:
+      - "127.0.0.1:5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./db/init:/docker-entrypoint-initdb.d
