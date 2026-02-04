@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # PostgreSQL database for market data
   postgres:
@@ -9,8 +7,7 @@ services:
       POSTGRES_USER: betting_user
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-betting_password}
       POSTGRES_DB: betting_markets
-    ports:
-      - "5433:5432"
+    # REMOVED EXPOSED PORT - internal network only
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./db/init:/docker-entrypoint-initdb.d
@@ -29,8 +26,7 @@ services:
     container_name: betting-jupyter
     environment:
       JUPYTER_ENABLE_LAB: "yes"
-    ports:
-      - "8888:8888"
+    # REMOVED EXPOSED PORT - internal network only
     volumes:
       - ./notebooks:/home/jovyan/work
       - ./data:/home/jovyan/data
@@ -50,7 +46,7 @@ services:
       dockerfile: Dockerfile
     container_name: betting-kalshi-bot
     environment:
-      DATABASE_URL: postgresql://betting_user:${POSTGRES_PASSWORD:-betting_password}@postgres:5432/betting_markets
+      DATABASE_URL: postgresql://betting_user:${POSTGRES_PASSWORD:-betting_password}@postgres/betting_markets
       KALSHI_API_KEY: ${KALSHI_API_KEY}
       KALSHI_API_SECRET: ${KALSHI_API_SECRET}
       KALSHI_ENVIRONMENT: ${KALSHI_ENVIRONMENT:-demo}
