@@ -1,0 +1,102 @@
+{
+  "matchup": {
+    "teams": ["Seattle Seahawks", "New England Patriots"],
+    "venue": "Levi's Stadium",
+    "location": "Santa Clara, California",
+    "spread": -4.5,
+    "over_under": 49.5,
+    "date": "2026-02-08"
+  },
+  "analysis_date": "2026-02-07T15:25:00Z",
+  "analysis_method": "Atlas Matchup Research Integration",
+  "props_analyzed": 5,
+  "recommended_bets": [
+    {
+      "rank": 1,
+      "title": "Super Bowl LX - Sam Darnold Completions",
+      "recommendation": "OVER",
+      "edge": 0.08,
+      "edge_percent": "8.0%",
+      "ai_probability": 0.58,
+      "market_probability": 0.50,
+      "confidence": "LOW",
+      "line": 25.5,
+      "value_level": "HIGH",
+      "reasoning": [
+        "WR props have HIGH value (consistent target volume)",
+        "Target volume 253.0 > line 25.5",
+        "Edge of 8.0% exceeds 5% threshold"
+      ],
+      "risk_factors": [
+        "Teammate injuries may affect game script",
+        "Balanced game script introduces uncertainty"
+      ]
+    },
+    {
+      "rank": 2,
+      "title": "Super Bowl LX - First Score Method",
+      "recommendation": "OVER",
+      "edge": 0.05,
+      "edge_percent": "5.0%",
+      "ai_probability": 0.55,
+      "market_probability": 0.50,
+      "confidence": "LOW",
+      "line": 0.0,
+      "value_level": "MEDIUM_HIGH",
+      "reasoning": [
+        "First score has MEDIUM-HIGH value",
+        "Historical pattern: 60% of recent SBs had TD first",
+        "Edge of 5.0% exceeds 5% threshold"
+      ],
+      "risk_factors": [
+        "Balanced game script introduces uncertainty"
+      ]
+    }
+  ],
+  "no_bets": [
+    {
+      "rank": 3,
+      "title": "Super Bowl LX - Drake Maye Passing Yards",
+      "reasoning": "Season avg 274.6 > line 245.5, but edge only 3.0% below 5% threshold",
+      "edge": 0.03,
+      "edge_percent": "3.0%"
+    },
+    {
+      "rank": 4,
+      "title": "Super Bowl LX - Jaxon Smith-Njigba Receiving Yards",
+      "reasoning": "Target volume 112.1 > line 95.5, but edge only 2.1% below 5% threshold",
+      "edge": 0.021,
+      "edge_percent": "2.1%"
+    },
+    {
+      "rank": 5,
+      "title": "Super Bowl LX - Total Points",
+      "reasoning": "First half totals have HIGH-MED value, but edge only 2.0% below 5% threshold",
+      "edge": 0.02,
+      "edge_percent": "2.0%"
+    }
+  ],
+  "summary": {
+    "total_props_analyzed": 5,
+    "recommended_bets": 2,
+    "no_bet": 3,
+    "average_edge_recommended": "6.5%",
+    "top_confidence": "LOW"
+  },
+  "notes": [
+    "Analysis based on Atlas's matchup research from shared/documents/super-bowl-matchup-research.md",
+    "All prop types have HIGH or MEDIUM-HIGH value according to research",
+    "Edge threshold set to 5% minimum for recommended bets",
+    "Confidence levels are LOW due to limited sample size and balanced game script prediction",
+    "Injury considerations: Zach Charbonnet OUT (Seahawks RB), Sam Darnold QUESTIONABLE (oblique)",
+    "Weather ideal: 60°F, low wind, no precipitation",
+    "Venue advantage: Seahawks (West Coast team playing in California)"
+  ],
+  "next_steps": [
+    "Monitor Kalshi markets for these specific props",
+    "Consider live betting opportunities if lines move",
+    "Check injury reports closer to game time",
+    "Review lineup confirmations on game day",
+    "Implement in betting dashboard for real-time tracking"
+  ]
+}

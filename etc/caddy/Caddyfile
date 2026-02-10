@@ -1,0 +1,117 @@
+# Caddy Configuration for algo.bhakta.us
+# Super Bowl SaaS Platform - Custom Domain with Tailscale + Caddy Reverse Proxy
+# Date: February 6, 2026
+# Version: 1.0
+
+{
+    # Global Options
+    email admin@algo.bhakta.us
+}
+
+# HTTP Configuration
+https://algo.bhakta.us {
+    # Tailscale provides HTTPS certificates
+    encode zstd gzip
+    
+    # Security Headers
+    header {
+        # HSTS (Strict-Transport-Security)
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        
+        # CSP (Content-Security-Policy)
+        Content-Security-Policy "default-src 'self' https://api.openalgo.in; script-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://docs.openalgo.in"
+        
+        # X-Frame-Options (Prevent Clickjacking)
+        X-Frame-Options "SAMEORIGIN"
+        
+        # X-Content-Type-Options (Prevent MIME Sniffing)
+        X-Content-Type-Options "nosniff"
+        
+        # X-XSS-Protection
+        X-XSS-Protection "1; mode=block"
+        
+        # Referrer Policy
+        Referrer-Policy "strict-origin-when-cross-origin"
+    }
+    
+    # Root Configuration
+    root * {
+        # Log files
+        log {
+            output file /var/log/caddy/access.log
+            format json
+        }
+        
+        # Health check endpoint
+        handle /health {
+            respond /health "OK" 200
+        reverse_proxy localhost:5001 {
+                to https://100.118.122.85:5000
+                health_path /_upstream
+        }
+    }
+    
+    # OpenAlgo Dashboard (Public Access via Tailscale)
+    https://algo.bhakta.us/dashboard {
+        # Reverse proxy to OpenAlgo dashboard on VPS
+        reverse_proxy localhost:5000 {
+                to https://100.118.122.85:5000
+                health_path /_upstream
+                
+                # Security headers
+                header_upstream X-Real-IP {remote_host}
+                header_upstream X-Forwarded-For {remote_host}
+                
+                # Timeouts
+                transport http {
+                        read_timeout 60s
+                        write_timeout 60s
+                        idle_timeout 120s
+                }
+        }
+    }
+    
+    # OpenAlgo API (Internal Access via Tailscale)
+    https://algo.bhakta.us/api {
+        # Reverse proxy to OpenAlgo API server on VPS
+        reverse_proxy localhost:8000 {
+                to http://localhost:8000
+                health_path /_upstream
+        }
+    }
+    
+    # OpenAlgo WebSocket (Internal Access via Tailscale)
+    https://algo.bhakta.us/ws {
+        # Reverse proxy to OpenAlgo WebSocket server on VPS
+        reverse_proxy localhost:8765 {
+                to http://localhost:8765
+                health_path /_upstream
+                
+                # WebSocket upgrade
+                header_upstream Connection {upgrade}
+                header_upstream Upgrade websocket
+        }
+    }
+    
+    # OpenAlgo Kalshi Prediction Bot API (Internal)
+    https://algo.bhakta.us/kalshi {
+        # Reverse proxy to Kalshi bot API on VPS
+        reverse_proxy localhost:9000 {
+                to http://localhost:9000
+                health_path /_upstream
+        }
+    }
+}
+
+# Logging Configuration
+{
+    # Access logs
+    access_log /var/log/caddy/access.log {
+        format json
+    }
+    
+    # Error logs
+    error_log /var/log/caddy/error.log {
+        format json
+    }
+}

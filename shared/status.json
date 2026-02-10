@@ -3,19 +3,24 @@
     "codex": {
       "status": "idle",
       "currentTask": "",
-      "updatedAt": "2026-02-02T02:49:21Z"
+      "updatedAt": "2026-02-10T10:31:21Z"
     },
     "archi": {
-      "status": "idle",
+      "status": "monitoring",
       "currentTask": "",
-      "updatedAt": "2026-02-02T03:24:52Z"
+      "updatedAt": "2026-02-10T22:17:20Z"
     },
     "atlas": {
       "status": "monitoring",
       "currentTask": "",
-      "updatedAt": "2026-02-02T03:15:54Z"
+      "updatedAt": "2026-02-10T22:15:17Z"
+    },
+    "pipeline": {
+      "status": "idle",
+      "currentTask": "",
+      "updatedAt": "2026-02-10T17:31:32Z"
     }
   },
-  "lastUpdated": "2026-02-02T03:24:52Z",
+  "lastUpdated": "2026-02-10T22:17:20Z",
   "version": "1.0"
 }

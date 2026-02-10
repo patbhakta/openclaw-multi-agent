@@ -9,7 +9,7 @@ services:
       POSTGRES_DB: betting_markets
     # BIND TO LOCALHOST ONLY - NO PUBLIC EXPOSURE
     ports:
-      - "127.0.0.1:5432:5432"
+      - "127.0.0.1:5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./db/init:/docker-entrypoint-initdb.d
@@ -52,11 +52,14 @@ services:
       KALSHI_API_KEY: ${KALSHI_API_KEY}
       KALSHI_API_SECRET: ${KALSHI_API_SECRET}
       KALSHI_ENVIRONMENT: ${KALSHI_ENVIRONMENT:-demo}
+      PYTHONPATH: /app/src:/app:/app/openalgo
+      OPENALGO_PATH: /app/openalgo
     volumes:
       - ./src:/app/src
       - ./data:/app/data
       - ./models:/app/models
       - ./tests:/app/tests
+      - /root/.openclaw/workspace/openalgo:/app/openalgo
     depends_on:
       postgres:
         condition: service_healthy
@@ -66,8 +69,39 @@ services:
     networks:
       - betting-network
 
+  # Streamlit dashboard for paper trading monitoring
+  dashboard:
+    build:
+      context: .
+      dockerfile: dashboard/Dockerfile
+    container_name: betting-dashboard
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: betting_markets
+      DB_USER: betting_user
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-betting_password}
+      DASHBOARD_API_URL: ${DASHBOARD_API_URL:-http://localhost:5000}
+      DASHBOARD_USERNAME: ${DASHBOARD_USERNAME}
+      DASHBOARD_PASSWORD: ${DASHBOARD_PASSWORD}
+      TOKEN_ENCRYPTION_KEY: ${TOKEN_ENCRYPTION_KEY}
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./dashboard:/app/dashboard
+      - ./src:/app/src
+      - ./models:/app/models
+      - dashboard_logs:/app/logs
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - betting-network
+
 volumes:
   postgres_data:
+  dashboard_logs:
 
 networks:
   betting-network:

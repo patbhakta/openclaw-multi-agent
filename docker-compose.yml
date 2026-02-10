@@ -1,116 +1,53 @@
-version: '3.8'
+name: openalgo-platform
 
 services:
-  # Node.js Environment
-  node:
-    image: node:22-alpine
-    container_name: openclaw-node
-    working_dir: /workspace
+  # Caddy Web Server
+  caddy:
+    image: caddy:latest
+    container_name: openalgo-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8765:8765"
     volumes:
-      - /root/.openclaw/workspace:/workspace
-      - node_modules:/workspace/node_modules
-    command: tail -f /dev/null
+      - ./etc/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy/data:/data
+      - ./caddy/logs:/var/log/caddy
+      - ./caddy/certs:/etc/caddy/certs:ro
     networks:
-      - openclaw-net
-
-  # Python Environment
-  python:
-    image: python:3.12-slim
-    container_name: openclaw-python
-    working_dir: /workspace
-    volumes:
-      - /root/.openclaw/workspace:/workspace
-    command: tail -f /dev/null
-    networks:
-      - openclaw-net
-
-  # Go Environment
-  go:
-    image: golang:1.22-alpine
-    container_name: openclaw-go
-    working_dir: /workspace
-    volumes:
-      - /root/.openclaw/workspace:/workspace
-      - go_modules:/go/pkg/mod
-    command: tail -f /dev/null
-    networks:
-      - openclaw-net
-
-  # Rust Environment
-  rust:
-    image: rust:1.76-slim
-    container_name: openclaw-rust
-    working_dir: /workspace
-    volumes:
-      - /root/.openclaw/workspace:/workspace
-      - cargo_cache:/usr/local/cargo/registry
-    command: tail -f /dev/null
-    networks:
-      - openclaw-net
-
-  # Java Environment
-  java:
-    image: eclipse-temurin:21-jdk-alpine
-    container_name: openclaw-java
-    working_dir: /workspace
-    volumes:
-      - /root/.openclaw/workspace:/workspace
-    command: tail -f /dev/null
-    networks:
-      - openclaw-net
+      - openalgo-network
 
   # PostgreSQL Database
   postgres:
     image: postgres:16-alpine
-    container_name: openclaw-postgres
+    container_name: betting-db
+    restart: unless-stopped
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: openclaw
-    ports:
-      - "5432:5432"
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASSWORD: postgres_password
+      POSTGRES_DB: openalgo_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - openclaw-net
+      - openalgo-network
 
   # Redis Cache
   redis:
     image: redis:7-alpine
-    container_name: openclaw-redis
+    container_name: openalgo-redis
+    restart: unless-stopped
     ports:
       - "6379:6379"
-    networks:
-      - openclaw-net
-
-  # Nginx Web Server
-  nginx:
-    image: nginx:alpine
-    container_name: openclaw-nginx
-    ports:
-      - "8080:80"
     volumes:
-      - /root/.openclaw/workspace/deployments/nginx:/etc/nginx/conf.d:ro
-      - /root/.openclaw/workspace/deployments/static:/usr/share/nginx/html:ro
+      - redis_data:/data
     networks:
-      - openclaw-net
-
-  # Development Tools
-  devtools:
-    image: alpine:latest
-    container_name: openclaw-devtools
-    volumes:
-      - /root/.openclaw/workspace:/workspace
-    command: tail -f /dev/null
-    networks:
-      - openclaw-net
-
-volumes:
-  node_modules:
-  go_modules:
-  cargo_cache:
-  postgres_data:
+      - openalgo-network
 
 networks:
-  openclaw-net:
+  openalgo-network:
     driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:

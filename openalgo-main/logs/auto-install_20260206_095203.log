@@ -1,0 +1,45 @@
+[2026-02-06 09:52:03] [0;34mStarting automated OpenAlgo installation...
+[2026-02-06 09:52:03] [0;34mDomain: algo.bhakta.us
+[2026-02-06 09:52:03] [0;34mBroker: kalshi (demo mode)
+[2026-02-06 09:52:03] [0;34mAPP Key: 1137491F10478321DF4470E4F65876C4CC6C0CCBCE695C4137B19D98CF16310F
+[2026-02-06 09:52:03] [0;34m[1/10] Creating deployment directory: /var/python/openalgo-flask/algo.bhakta.us
+[2026-02-06 09:52:03] [0;34m[2/10] Cloning official OpenAlgo repository...
+[2026-02-06 09:52:06] [0;32m[3/10] Repository cloned successfully
+[2026-02-06 09:52:06] [0;34m[4/10] Creating Python virtual environment with uv...
+[2026-02-06 09:52:10] [0;32m[5/10] Virtual environment created
+[2026-02-06 09:52:10] [0;32m[6/10] Virtual environment activated
+[2026-02-06 09:52:10] [0;34m[7/10] Installing Python dependencies via uv...
+[2026-02-06 09:53:30] [0;32m[8/10] Dependencies installed successfully
+[2026-02-06 09:53:30] [0;34m[9/10] Generating API keys...
+[2026-02-06 09:53:30] [0;32m[10/10] Environment configuration created
+[2026-02-06 09:53:30] [0;34m[11/10] Configuring Nginx...
+[2026-02-06 09:53:30] [0;32m[12/10] Nginx configuration created
+[2026-02-06 09:53:30] [0;34m[13/10] Testing Nginx configuration...
+[2026-02-06 09:53:30] [0;32m[14/10] Nginx configuration test passed
+[2026-02-06 09:53:30] [0;34m[15/10] Reloading Nginx...
+[2026-02-06 09:53:30] [0;32m[16/10] Nginx reloaded successfully
+[2026-02-06 09:53:30] [0;34m[17/10] Creating systemd service...
+[2026-02-06 09:53:30] [0;32m[18/10] Systemd service created
+[2026-02-06 09:53:30] [0;32m[19/10] Permissions set
+[2026-02-06 09:53:31] [0;34m[20/10] Starting OpenAlgo service...
+[2026-02-06 09:53:36] [0;32m[21/10] OpenAlgo service started successfully
+[2026-02-06 09:53:36] [0;34m[22/10] Opening firewall ports...
+[2026-02-06 09:53:37] [0;32m[23/10] Firewall configured
+[2026-02-06 09:53:37] [0;32m========================================
+[2026-02-06 09:53:37] [0;32m       INSTALLATION COMPLETE!
+[2026-02-06 09:53:37] [0;32m========================================
+[2026-02-06 09:53:37] [0;32mDomain: algo.bhakta.us
+[2026-02-06 09:53:37] [0;32mBroker: kalshi
+[2026-02-06 09:53:37] [0;32mDashboard: https://algo.bhakta.us/dashboard
+[2026-02-06 09:53:37] [0;32mAPI: https://algo.bhakta.us/api
+[2026-02-06 09:53:37] [0;32mWebSocket: wss://algo.bhakta.us/ws
+[2026-02-06 09:53:37] [0;32mAPP Key: 1137491F10478321DF4470E4F65876C4CC6C0CCBCE695C4137B19D98CF16310F
+[2026-02-06 09:53:37] [0;32m========================================
+[2026-02-06 09:53:37] [0;34mNEXT STEPS:
+[2026-02-06 09:53:37] [0;34m1. Visit https://algo.bhakta.us/dashboard to access your OpenAlgo instance
+[2026-02-06 09:53:37] [0;34m2. Configure your broker settings in the dashboard
+[2026-02-06 09:53:37] [0;34m3. Navigate to https://algo.bhakta.us/dashboard/strategies
+[2026-02-06 09:53:37] [0;34m4. Create a new Super Bowl prediction strategy
+[2026-02-06 09:53:37] [0;34m5. Enable paper trading mode for testing
+[2026-02-06 09:53:37] [0;34m6. Review logs: tail -f /root/.openclaw/workspace/openalgo-main/logs/install_*.log
+[2026-02-06 09:53:37] [0;34m========================================

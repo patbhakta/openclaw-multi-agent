@@ -44,8 +44,152 @@
       "status": "done",
       "createdAt": "2026-02-02T02:14:52Z",
       "updatedAt": "2026-02-02T03:24:52Z"
+    },
+    {
+      "id": "task_1770022366",
+      "title": "Analyze YouTube videos for betting feasibility",
+      "description": "Extract insights from 3 Part Time Larry videos on Kalshi prediction markets. Document what works (AI research) vs what doesn't (latency arbitrage). Provide feasibility assessment and MVP strategy.",
+      "assignee": "sage",
+      "status": "done",
+      "createdAt": "2026-02-02T08:52:46Z",
+      "updatedAt": "2026-02-02T08:52:55Z"
+    },
+    {
+      "id": "task_1770219035",
+      "title": "Research Super Bowl betting strategies",
+      "description": "Analyze Super Bowl betting strategies, historical prop performance, key player injuries, and team form. Focus on: 1) Which prop types have best value, 2) Player props vs game props, 3) Historical Super Bowl betting patterns, 4) Key indicators (injuries, weather, venue). Save findings to shared/documents/super-bowl-research.md",
+      "assignee": "atlas",
+      "status": "done",
+      "createdAt": "2026-02-04T15:30:35Z",
+      "updatedAt": "2026-02-04T19:02:10Z"
+    },
+    {
+      "id": "task_1770259675",
+      "title": "Phase 2: Super Bowl Betting Strategy & Bot Implementation",
+      "description": "Build the complete betting system based on Atlas's Super Bowl research. Create prop analysis engine, data integration with Kalshi API, risk management framework, and testing infrastructure.\n\n**Tasks:**\n1. **Infrastructure Setup** (Codex):\n   - Extend existing betting-research Docker environment\n   - Add modules for: prop analysis, market data ingestion, probability calculations\n   - Ensure all code runs in Docker containers\n\n2. **Strategy Implementation** (Codex + Archi oversight):\n   - Build the prop analysis engine based on research recommendations\n   - Implement player prop analysis (QB yards, WR receptions)\n   - Add game prop analysis (first half totals, first score)\n   - Create bet selection framework (edge thresholds, position sizing)\n   - Add risk management rules (Kelly criterion, diversification)\n\n3. **Data Integration** (Codex):\n   - Connect to Kalshi API (already set up in betting-research/)\n   - Build line tracking system for value detection\n   - Create prop data structures for analysis\n\n4. **Testing & Validation** (Quest):\n   - Test prop analysis with historical data\n   - Validate probability calculations\n   - Ensure Docker containers run properly\n\n**Timing Notes:**\n- Build core framework now (infrastructure, analysis engine)\n- Final strategy selection requires matchup data (teams, injury reports, weather)\n- These will be available closer to game day (Feb 9)\n- Build flexible architecture that accepts live data\n\n**Deliverables:**\n- Working betting bot modules in Docker\n- Prop analysis engine with test coverage\n- Kalshi API integration for line tracking\n- Risk management implementation\n- Comprehensive test suite\n\n**Location:** /root/.openclaw/workspace/betting-research/",
+      "assignee": "codex",
+      "status": "done",
+      "createdAt": "2026-02-05T02:47:55Z",
+      "updatedAt": "2026-02-05T03:36:33Z"
+    },
+    {
+      "id": "task_1770310052",
+      "title": "Set up sophisticated DevOps agent for VPS management",
+      "description": "Create and configure Pipeline agent for continuous DevOps operations: VPS monitoring, Docker orchestration, system scaling, security automation, deployment CI/CD, and infrastructure as code. Agent should have always-on or frequent heartbeat capability for production-level management.",
+      "assignee": "archi",
+      "status": "done",
+      "createdAt": "2026-02-05T16:47:32Z",
+      "updatedAt": "2026-02-05T17:18:46Z"
+    },
+    {
+      "id": "task_1770310230",
+      "title": "Activate Pipeline DevOps agent",
+      "description": "Set up Pipeline agent with always-on heartbeat for production-grade VPS management: Docker orchestration, CI/CD, monitoring, scaling, security, and deployment automation. Agent should monitor all systems continuously and respond to incidents immediately.",
+      "assignee": "pipeline",
+      "status": "done",
+      "createdAt": "2026-02-05T16:50:30Z",
+      "updatedAt": "2026-02-05T17:38:37Z"
+    },
+    {
+      "id": "task_1770356818",
+      "title": "Review openalgo integration recommendations and begin implementation",
+      "description": "Review the openalgo integration and security recommendations document at /root/.openclaw/workspace/shared/documents/openalgo-integration-recommendations.md. Approve the proposed architecture (Option A - Dashboard API Integration for paper trading). Assign first implementation tasks to Codex (security hardening: Argon2, Fernet, SQLAlchemy) and Pipeline (simple Streamlit dashboard). Start with Phase 1: Security Hardening (Week Feb 6-7). Goal: Super Bowl paper trading ready by Feb 8 with 80% production-grade security score.",
+      "assignee": "archi",
+      "status": "complete",
+      "createdAt": "2026-02-06T05:46:58Z",
+      "updatedAt": "2026-02-06T06:01:30Z"
+    },
+    {
+      "id": "task_1770356910",
+      "title": "Implement Security Hardening: Argon2, Fernet, SQLAlchemy",
+      "description": "Implement production-grade security features for Super Bowl betting system based on openalgo recommendations:\\n\\n1. **Argon2-CFFI Password Hashing:**\\n   - Replace any SHA-256 or bcrypt with Argon2-CFFI (PHC winner)\\n   - Implement hash_password() and verify_password() functions\\n   - Generate random salts per password\\n   - Test with sample passwords\\n\\n2. **Fernet Token Encryption:**\\n   - Implement TokenManager class with Fernet encryption\\n   - Generate/store TOKEN_ENCRYPTION_KEY in environment\\n   - Implement generate_token() and decrypt_token() functions\\n   - Add expiration validation (default 24 hours)\\n\\n3. **SQLAlchemy ORM Migration:**\\n   - Migrate all raw SQL queries to SQLAlchemy ORM\\n   - Define all models (users, api_keys, paper_trades, security_events, api_call_logs)\\n   - Ensure account_id is on all tables (row-level security)\\n   - Use parameterized queries exclusively\\n\\n4. **Rate Limiting:**\\n   - Implement RateLimiter class (per user/IP)\\n   - Default: 60 requests per minute\\n   - Add request recording\\n   - Clean old requests outside window\\n\\n5. **Audit Trail:**\\n   - Implement AuditLogger class\\n   - Log security events (severity, event_type, user_id, details, ip_address)\\n   - Log trades (trade_id, action, amount, market_type, user_id)\\n   - Log API calls (service, endpoint, user_id, duration_ms, success)\\n\\nLocation: /root/.openclaw/workspace/betting-research/\\n\\nDeadline: Feb 7, 2026 (end of day UTC)\\n\\nDeliverables:\\n- All security modules implemented in betting-research/\\n- Unit tests for each security module\\n- Documentation on how to use each module\\n- Security score improvement: 30% -> 80%\\n\\nReference: /root/.openclaw/workspace/shared/documents/openalgo-integration-recommendations.md",
+      "assignee": "codex",
+      "status": "done",
+      "createdAt": "2026-02-06T05:48:30Z",
+      "updatedAt": "2026-02-06T06:56:27Z"
+    },
+    {
+      "id": "task_1770356950",
+      "title": "Build Simple Streamlit Dashboard for Paper Trading",
+      "description": "Build a simple, functional Streamlit dashboard for Super Bowl paper trading monitoring based on openalgo Dashboard API integration (Option A):\\n\\n**Dashboard Pages:**\\n\\n1. **Portfolio Overview (Home):**\\n   - Paper P&L metric\\n   - Win rate percentage\\n   - Total trades count\\n   - Analyzer mode status\\n   - Dashboard API connection status\\n   - Bot status (ACTIVE/IDLE)\\n   - API keys loaded count\\n\\n2. **Paper Trades Page:**\\n   - Table of recent paper trades\\n   - Columns: trade_id, prop_id, action, amount, status, created_at\\n   - Filter by status (PENDING, EXECUTED, FAILED)\\n   - Sort by timestamp\\n\\n3. **Signals Page:**\\n   - List of active betting signals\\n   - Columns: prop_id, market_type, action, confidence, edge, market_price, suggested_price, reasoning, timestamp\\n   - Filter by action (BET/PASS)\\n   - Sort by edge or confidence\\n\\n4. **Bot Controls Page:**\\n   - Start/Stop bot buttons\\n   - API Analyzer Mode toggle\\n   - Bot status display\\n   - System logs viewer\\n\\n**Requirements:**\\n- Streamlit application (Python)\\n- Dashboard API client (authentication, key fetch)\\n- API Analyzer Mode integration\\n- Real-time updates (auto-refresh every 30 seconds)\\n- Clean, simple UI (inspired by openalgo but simpler)\\n- Mobile-friendly\\n- Deploy to localhost:8888\\n\\n**Technical Stack:**\\n- Streamlit (Python web framework)\\n- PostgreSQL connection (existing betting-research database)\\n- Dashboard API client (to be implemented)\\n- Openalgo Dashboard API integration\\n\\nLocation: /root/.openclaw/workspace/betting-research/dashboard/\\n\\nDeadline: Feb 8, 2026 (morning UTC)\\n\\nDeliverables:\\n- Streamlit dashboard deployed and accessible\\n- Dashboard API client working\\n- API Analyzer Mode integration complete\\n- Real-time updates functional\\n- Mobile-friendly UI\\n- User documentation\\n\\nReference: /root/.openclaw/workspace/shared/documents/openalgo-integration-recommendations.md",
+      "assignee": "codex",
+      "status": "done",
+      "createdAt": "2026-02-06T05:48:30Z",
+      "updatedAt": "2026-02-06T07:21:27Z"
+    },
+    {
+      "id": "task_1770358400",
+      "title": "Phase 1: Super Bowl preparation - Integrate forked OpenAlgo with Kalshi API",
+      "description": "Implement Super Bowl betting system integrating forked openalgo repository (patbhakta/openalgo) with Kalshi prediction markets. Phase 1: Clone repository, adapt Kalshi API code to use dashboard key management (hash-only storage), create research task for Sage agent, create integration task for Codex agent. Focus: Production-grade security, API Analyzer Mode for paper trading, real-time Super Bowl market data, prediction algorithms.",
+      "assignee": "pipeline",
+      "status": "done",
+      "createdAt": "2026-02-06T06:13:20Z",
+      "updatedAt": "2026-02-10T10:35:26Z"
+    },
+    {
+      "id": "task_1770358653",
+      "title": "Phase 1: Kalshi SDK Integration & Super Bowl Research",
+      "description": "Build Super Bowl prediction system integrating forked OpenAlgo repository (patbhakta/openalgo) with production-grade Kalshi SDK. Phase 1 tasks: 1) Install Kalshi SDK (kalshi-python-sync), 2) Copy API integration code (auth_api.py, order_api.py, funds.py) from openalgo to betting-research/kalshi-sdk/, 3) Create Super Bowl research module (super_bowl_research.py) with team matchup, player props, historical analysis, probability estimation, 4) Implement dashboard API client for key fetching (JWT authentication, hash-only storage), 5) Update database schema for API keys table (service, key_hash, expires_at, permissions, dashboard_managed), 6) Implement security hardening (Argon2-CFFI password hashing, Fernet token encryption, rate limiting, audit trail). Target: Week Feb 6-9 for completion.",
+      "assignee": "codex",
+      "status": "done",
+      "createdAt": "2026-02-06T06:17:33Z",
+      "updatedAt": "2026-02-06T19:07:52Z"
+    },
+    {
+      "id": "task_1770358675",
+      "title": "Super Bowl Research: Team Matchup Analysis",
+      "description": "Comprehensive Super Bowl research: Team A vs Team B matchup analysis, historical performance (last 5 years), venue factors, coaching analysis, player prop research (QB, RB, WR, TE), probability estimation, edge calculation. Output: detailed research document with probabilities and betting recommendations.",
+      "assignee": "atlas",
+      "status": "done",
+      "createdAt": "2026-02-06T06:17:55Z",
+      "updatedAt": "2026-02-07T12:19:09Z"
+    },
+    {
+      "id": "task_1770359266",
+      "title": "Research: Kalshi API Integration Requirements for OpenAlgo Dashboard",
+      "description": "Research and document the requirements for integrating Kalshi API authentication with OpenAlgo's dashboard key management system (hash-only storage using Argon2 + Fernet encryption).\\n\\n**Research Scope:**\\n\\n1. **OpenAlgo Dashboard Key Management System:**\\n   - Review auth_db.py for API key storage mechanism (hashing + encryption)\\n   - Understand the API key verification flow using verify_api_key()\\n   - Document how broker credentials should be stored in the system\\n   - Identify what data needs to be encrypted vs hashed\\n\\n2. **Kalshi API Authentication:**\\n   - Review current Kalshi authentication in broker/kalshi/api/auth_api.py\\n   - Determine if email/password should be stored encrypted or if API tokens should be used\\n   - Research Kalshi API documentation for alternative auth methods (API keys, tokens)\\n   - Check if Kalshi supports long-lived tokens for programmatic access\\n\\n3. **Integration Strategy:**\\n   - Define how Kalshi credentials will be stored in the Auth table\\n   - Determine if feed tokens are needed for Kalshi WebSocket connections\\n   - Document the authentication flow for Super Bowl paper trading\\n   - Identify any security considerations specific to prediction markets\\n\\n4. **Data Requirements:**\\n   - What credentials need to be stored (email/password, API key, or both)\\n   - Environment selection (demo vs production) storage mechanism\\n   - Session management requirements for real-time market data\\n\\n**Deliverables:**\\n- Research document (in /root/.openclaw/workspace/shared/documents/kalshi-integration-research.md)\\n- Recommended integration architecture\\n- Security considerations and best practices\\n- API flow diagrams\\n- Specific implementation recommendations for CodeX\\n\\n**Deadline:** Feb 6, 2026 (end of day UTC)\\n\\n**Context:** This research will guide CodeX in implementing the Kalshi API integration with OpenAlgo's secure key management system for Super Bowl paper trading.",
+      "assignee": "atlas",
+      "status": "done",
+      "createdAt": "2026-02-06T06:27:46Z",
+      "updatedAt": "2026-02-06T12:41:02Z"
+    },
+    {
+      "id": "task_1770359294",
+      "title": "Implement: Kalshi API Integration with OpenAlgo Dashboard Key Management",
+      "description": "Implement Kalshi API integration with OpenAlgo's dashboard key management system based on Sage's research recommendations.\\n\\n**Implementation Scope:**\\n\\n1. **Adapt Kalshi Authentication:**\\n   - Modify broker/kalshi/api/auth_api.py to use dashboard API key system\\n   - Store Kalshi credentials using auth_db.py (encrypted for retrieval, hashed for verification)\\n   - Implement credential retrieval using get_auth_token_broker() pattern\\n   - Support both demo and production environments\\n\\n2. **Dashboard API Client:**\\n   - Create or modify API client to fetch Kalshi credentials securely\\n   - Implement error handling for invalid/revoked credentials\\n   - Add credential refresh logic if needed\\n\\n3. **Feed Token Support:**\\n   - Implement WebSocket feed token if Kalshi requires it\\n   - Use get_feed_token() pattern for real-time market data\\n   - Ensure proper cache invalidation on credential changes\\n\\n4. **API Analyzer Mode:**\\n   - Integrate with OpenAlgo's API Analyzer Mode for paper trading\\n   - Ensure no real money trades during paper trading mode\\n   - Implement order status tracking for paper trades\\n\\n5. **Testing:**\\n   - Create unit tests for authentication flow\\n   - Test with both demo and production environments\\n   - Verify paper trading works correctly without real orders\\n\\n**Dependencies:**\\n- Sage task: Research Kalshi API Integration Requirements (task_1770359266)\\n- Must wait for research document before implementing\\n\\n**Technical Stack:**\\n- OpenAlgo dashboard API client (Python)\\n- Kalshi Python SDK (kalshi_python_sync)\\n- Argon2 hashing for verification\\n- Fernet encryption for credential storage\\n\\n**Location:**\\n- /root/.openclaw/workspace/openalgo/broker/kalshi/\\n- /root/.openclaw/workspace/betting-research/\\n\\n**Deadline:** Feb 8, 2026 (morning UTC)\\n\\n**Deliverables:**\\n- Kalshi authentication adapted to use dashboard key management\\n- Working API client for credential retrieval\\n- API Analyzer Mode integration for paper trading\\n- Unit tests and integration tests\\n- Documentation on how to configure Kalshi credentials\\n\\n**Context:** This implementation will enable Super Bowl paper trading with production-grade security using OpenAlgo's hash-only key storage.",
+      "assignee": "codex",
+      "status": "done",
+      "createdAt": "2026-02-06T06:28:14Z",
+      "updatedAt": "2026-02-09T16:04:19Z"
+    },
+    {
+      "id": "task_1770362951",
+      "title": "Fix betting-dashboard healthcheck - Add curl to Dockerfile",
+      "description": "The betting-dashboard container is failing healthchecks because the Dockerfile doesn't install curl. The healthcheck command uses 'curl -f http://localhost:8888/_stcore/health' but curl is not available. Fix: Add 'curl' to the apt-get install command in betting-research/dashboard/Dockerfile line: RUN apt-get update && apt-get install -y gcc postgresql-client curl && rm -rf /var/lib/apt/lists/*",
+      "assignee": "codex",
+      "status": "done",
+      "createdAt": "2026-02-06T07:29:11Z",
+      "updatedAt": "2026-02-06T08:18:37Z"
+    },
+    {
+      "id": "task_1770366178",
+      "title": "Investigate PostgreSQL Authentication Failure",
+      "description": "PostgreSQL container 'betting-db' reported authentication failure at 2026-02-06 07:49:08 UTC: 'password authentication failed for user betting_user'. Container is bound to localhost (127.0.0.1:5433) so external access is blocked. Possible causes: (1) Misconfigured app credentials, (2) Internal authentication loop, (3) Attempted brute force via compromised service. Investigate logs, check for patterns, verify credentials in docker-compose and environment files, and recommend remediation if needed. Priority: MEDIUM (database secured by localhost binding).",
+      "assignee": "shield",
+      "status": "done",
+      "createdAt": "2026-02-06T08:22:58Z",
+      "updatedAt": "2026-02-06T12:50:12Z"
+    },
+    {
+      "id": "task_1770719003",
+      "title": "Fix betting-dashboard container - Add cryptography dependency",
+      "description": "betting-dashboard container is in a crash loop due to missing 'cryptography' Python package. The package is commented out in /app/requirements.txt in the container.\n\nRoot cause:\n- Line 13-14 in requirements.txt: 'cryptography>=41.0.0' is commented out\n- App imports from src.security.token_manager which requires cryptography.fernet\n- Container was built without this dependency, causing ModuleNotFoundError\n\nCurrent state:\n- Installed cryptography manually in container (version 46.0.4)\n- Direct Python import works, but Streamlit still crashes due to import cache/monitoring\n- Container is in restart loop - shows 'healthy' due to web server check, but app is dead\n\nRequired fix:\n1. Uncomment 'cryptography>=41.0.0' in /app/requirements.txt\n2. Rebuild betting-dashboard Docker image\n3. Deploy updated container (zero downtime preferred)\n\nContainer location: betting-research/betting-dashboard service in docker-compose.yml\nDashboard URL: http://208.84.102.243:8888\n\nImpact: Dashboard is unavailable - users cannot access the betting interface\n\nPriority: HIGH - Super Bowl preparation is in progress, dashboard is critical",
+      "assignee": "codex",
+      "status": "done",
+      "createdAt": "2026-02-10T10:23:23Z",
+      "updatedAt": "2026-02-10T10:31:01Z"
     }
   ],
-  "lastUpdated": "2026-02-02T03:24:52Z",
+  "lastUpdated": "2026-02-10T10:35:26Z",
   "version": "1.0"
 }

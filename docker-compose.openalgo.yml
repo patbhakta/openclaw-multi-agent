@@ -1,0 +1,120 @@
+version: "3.8"
+name: openalgo-platform
+
+services:
+  # Caddy Web Server (Restart on new network)
+  caddy:
+    image: caddy:latest
+    container_name: caddy-reverse-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8765:8765"
+    networks:
+      - openalgo-network
+    environment:
+      - SERVER_NAME: algo.bhakta.us
+
+  # OpenAlgo Dashboard (Running on new network)
+  openalgo-dashboard:
+    build:
+      context: ./openalgo-main
+      dockerfile: Dockerfile
+    image: patbhakta/openalgo-dashboard:latest
+    container_name: openalgo-dashboard
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL: postgresql://postgres_user:postgres_password@betting-db:5432/openalgo_db
+      - PUBLIC_URL: https://algo.bhakta.us
+      - DASHBOARD_URL: https://algo.bhakta.us/dashboard
+      - API_URL: https://algo.bhakta.us/api
+      - WS_URL: wss://algo.bhakta.us/ws
+      - ENABLE_TAILSCALE: "true"
+      - ENABLE_CADDY: "true"
+      - USE_DASHBOARD_KEYS: "true"
+      - TZ: America/Chicago
+      - NODE_ENV: production
+    depends_on:
+      betting-db:
+        condition: service_healthy
+      caddy:
+        condition: service_healthy
+    networks:
+      - openalgo-network
+    extra_hosts:
+      - "betting-db"
+      - "caddy-reverse-proxy"
+      - "caddy-reverse-proxy"
+      - "caddy-reverse-proxy"
+
+  # Super Bowl Kalshi Bot (Running on new network)
+  super-bowl-bot:
+    build:
+      context: ./openalgo-main
+      dockerfile: Dockerfile
+    image: patbhakta/super-bowl-bot:latest
+    container_name: super-bowl-bot
+    restart: unless-stopped
+    environment:
+      - DASHBOARD_URL: https://algo.bhakta.us/dashboard
+      - KALSHI_API_URL: https://demo-api.kalshi.co/trade-api/v2
+      - KALSHI_ENVIRONMENT: demo
+      - TZ: America/Chicago
+      - LOG_LEVEL: INFO
+      - SUPER_BOWL_ANALYZE_MODE: paper
+      - SUPER_BOWL_PAPER_BANKROLL: 1000
+      - SUPER_BOWL_RISK_LEVEL: moderate
+    depends_on:
+      betting-db:
+        condition: service_healthy
+      openalgo-dashboard:
+        condition: service_started
+    networks:
+      - openalgo-network
+    extra_hosts:
+      - "betting-db"
+      - "openalgo-dashboard"
+
+  # Streamlit Dashboard (Running on new network)
+  streamlit-dashboard:
+    build:
+      context: ./betting-research
+      dockerfile: Dockerfile
+    image: patbhakta/streamlit-dashboard:latest
+    container_name: streamlit-dashboard
+    restart: unless-stopped
+    ports:
+      - "8888:8888"
+    environment:
+      - DASHBOARD_URL: https://algo.bhakta.us/dashboard
+      - DATABASE_URL: postgresql://postgres_user:postgres_password@betting-db:5432/openalgo_db
+      - TZ: America/Chicago
+    depends_on:
+      betting-db:
+        condition: service_healthy
+      openalgo-dashboard:
+        condition: service_started
+    networks:
+      - openalgo-network
+    extra_hosts:
+      - "betting-db"
+      - "openalgo-dashboard"
+
+  # PostgreSQL Database (Existing container)
+  betting-db:
+    image: postgres:16-alpine
+    container_name: betting-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASSWORD: postgres_password
+      POSTGRES_DB: openalgo_db
+    networks:
+      - openalgo-network
+
+networks:
+  openalgo-network:
+    driver: bridge

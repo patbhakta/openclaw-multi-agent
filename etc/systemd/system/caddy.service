@@ -1,0 +1,17 @@
+[Unit]
+Description=Caddy Web Server for Super Bowl SaaS (algo.bhakta.us)
+After=network.target
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=5s
+TimeoutStopSec=180
+
+[Install]
+WantedBy=multi-user.target
+
+[Install]
+WantedBy=network-online.target
