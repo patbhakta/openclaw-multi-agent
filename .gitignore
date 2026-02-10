@@ -1,0 +1,36 @@
+# Environment Files (NEVER commit these!)
+.env
+.env.local
+.env.*.local
+.env.production
+*.env
+.env.example
+
+# API Keys & Secrets
+api_keys.json
+secrets.json
+credentials.json
+config.json
+keys.json
+api_keys/
+secrets/
+credentials/
+keys/
+
+# Logs & Databases (large files, sensitive data)
+*.log
+*.sqlite
+*.db
+*.sqlite3
+logs/
+db/
+databases/
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
